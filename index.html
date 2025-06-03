@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>分享這個頁面</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        color: #333;
+      }
+
+      .container {
+        background: white;
+        padding: 2rem;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        max-width: 500px;
+        width: 100%;
+        animation: fadeInUp 0.6s ease-out;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .icon {
+        font-size: 4rem;
+        margin-bottom: 1.5rem;
+        color: #667eea;
+      }
+
+      h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: #2d3748;
+      }
+
+      .description {
+        font-size: 1.1rem;
+        color: #666;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+      }
+
+      .url-display {
+        background: #f7fafc;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 1rem;
+        margin-bottom: 2rem;
+        font-family: "Monaco", "Menlo", monospace;
+        font-size: 0.9rem;
+        word-break: break-all;
+        color: #4a5568;
+      }
+
+      .share-button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        min-width: 200px;
+        justify-content: center;
+      }
+
+      .share-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+      }
+
+      .share-button:active {
+        transform: translateY(0);
+      }
+
+      .share-button:disabled {
+        background: #cbd5e0;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+      }
+
+      .fallback-message {
+        margin-top: 1.5rem;
+        padding: 1rem;
+        background: #fed7d7;
+        border-radius: 12px;
+        color: #c53030;
+        font-size: 0.9rem;
+        display: none;
+      }
+
+      .success-message {
+        margin-top: 1.5rem;
+        padding: 1rem;
+        background: #c6f6d5;
+        border-radius: 12px;
+        color: #22543d;
+        font-size: 0.9rem;
+        display: none;
+      }
+
+      /* RWD 響應式設計 */
+      @media (max-width: 768px) {
+        .container {
+          padding: 1.5rem;
+          margin: 10px;
+        }
+
+        h1 {
+          font-size: 1.5rem;
+        }
+
+        .description {
+          font-size: 1rem;
+        }
+
+        .share-button {
+          padding: 0.875rem 1.5rem;
+          font-size: 1.1rem;
+          width: 100%;
+        }
+
+        .icon {
+          font-size: 3rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .container {
+          padding: 1rem;
+        }
+
+        h1 {
+          font-size: 1.25rem;
+        }
+
+        .description {
+          font-size: 0.9rem;
+        }
+
+        .url-display {
+          font-size: 0.8rem;
+          padding: 0.75rem;
+        }
+      }
+
+      /* 深色模式支援 */
+      @media (prefers-color-scheme: dark) {
+        .container {
+          background: #2d3748;
+          color: #e2e8f0;
+        }
+
+        h1 {
+          color: #f7fafc;
+        }
+
+        .description {
+          color: #a0aec0;
+        }
+
+        .url-display {
+          background: #4a5568;
+          border-color: #718096;
+          color: #e2e8f0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="icon">📱</div>
+      <h1>分享這個頁面</h1>
+      <p class="description">
+        點擊下方按鈕，使用手機的原生分享功能，將這個網頁分享到你喜歡的應用程式中！
+      </p>
+
+      <div class="url-display" id="currentUrl">載入中...</div>
+
+      <button
+        class="share-button"
+        id="shareButton"
+        onclick="shareCurrentPage()"
+      >
+        <span>📤</span>
+        分享網頁
+      </button>
+
+      <div class="success-message" id="successMessage">✅ 分享成功！</div>
+
+      <div class="fallback-message" id="fallbackMessage">
+        ⚠️ 你的瀏覽器不支援原生分享功能，網址已複製到剪貼簿！
+      </div>
+    </div>
+
+    <script>
+      // 顯示當前網址
+      document.getElementById("currentUrl").textContent = window.location.href;
+
+      // 檢查是否支援 Web Share API
+      function isWebShareSupported() {
+        return "share" in navigator;
+      }
+
+      // 分享函數
+      async function shareCurrentPage() {
+        const shareButton = document.getElementById("shareButton");
+        const successMessage = document.getElementById("successMessage");
+        const fallbackMessage = document.getElementById("fallbackMessage");
+
+        // 重置訊息顯示
+        successMessage.style.display = "none";
+        fallbackMessage.style.display = "none";
+
+        const shareData = {
+          title: document.title,
+          text: "快來看看這個有趣的網頁！",
+          url: window.location.href,
+        };
+
+        try {
+          if (isWebShareSupported()) {
+            // 使用原生分享 API
+            shareButton.disabled = true;
+            shareButton.innerHTML = "<span>📤</span> 分享中...";
+
+            await navigator.share(shareData);
+
+            // 顯示成功訊息
+            successMessage.style.display = "block";
+            setTimeout(() => {
+              successMessage.style.display = "none";
+            }, 3000);
+          } else {
+            // 降級處理：複製到剪貼簿
+            await copyToClipboard(shareData.url);
+            fallbackMessage.style.display = "block";
+            setTimeout(() => {
+              fallbackMessage.style.display = "none";
+            }, 3000);
+          }
+        } catch (error) {
+          if (error.name !== "AbortError") {
+            // 用戶取消分享不算錯誤
+            console.error("分享失敗:", error);
+
+            // 嘗試複製到剪貼簿作為後備方案
+            try {
+              await copyToClipboard(shareData.url);
+              fallbackMessage.textContent =
+                "⚠️ 分享被取消，網址已複製到剪貼簿！";
+              fallbackMessage.style.display = "block";
+              setTimeout(() => {
+                fallbackMessage.style.display = "none";
+              }, 3000);
+            } catch (clipboardError) {
+              console.error("複製到剪貼簿也失敗:", clipboardError);
+            }
+          }
+        } finally {
+          // 恢復按鈕狀態
+          shareButton.disabled = false;
+          shareButton.innerHTML = "<span>📤</span> 分享網頁";
+        }
+      }
+
+      // 複製到剪貼簿函數
+      async function copyToClipboard(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+        } else {
+          // 降級處理：使用舊的方法
+          const textArea = document.createElement("textarea");
+          textArea.value = text;
+          textArea.style.position = "fixed";
+          textArea.style.left = "-999999px";
+          textArea.style.top = "-999999px";
+          document.body.appendChild(textArea);
+          textArea.focus();
+          textArea.select();
+
+          try {
+            document.execCommand("copy");
+          } finally {
+            textArea.remove();
+          }
+        }
+      }
+
+      // 頁面載入時檢查分享支援狀態
+      window.addEventListener("load", function () {
+        const shareButton = document.getElementById("shareButton");
+
+        if (!isWebShareSupported()) {
+          shareButton.innerHTML = "<span>📋</span> 複製網址";
+          shareButton.title = "你的瀏覽器不支援原生分享，將會複製網址到剪貼簿";
+        }
+      });
+
+      // 處理鍵盤快捷鍵
+      document.addEventListener("keydown", function (event) {
+        if ((event.ctrlKey || event.metaKey) && event.key === "s") {
+          event.preventDefault();
+          shareCurrentPage();
+        }
+      });
+    </script>
+  </body>
+</html>
