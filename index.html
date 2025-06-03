@@ -4,200 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>分享這個頁面</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          "Helvetica Neue", Arial, sans-serif;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-        color: #333;
-      }
-
-      .container {
-        background: white;
-        padding: 2rem;
-        border-radius: 20px;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        text-align: center;
-        max-width: 500px;
-        width: 100%;
-        animation: fadeInUp 0.6s ease-out;
-      }
-
-      @keyframes fadeInUp {
-        from {
-          opacity: 0;
-          transform: translateY(30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .icon {
-        font-size: 4rem;
-        margin-bottom: 1.5rem;
-        color: #667eea;
-      }
-
-      h1 {
-        font-size: 2rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        color: #2d3748;
-      }
-
-      .description {
-        font-size: 1.1rem;
-        color: #666;
-        margin-bottom: 2rem;
-        line-height: 1.6;
-      }
-
-      .url-display {
-        background: #f7fafc;
-        border: 2px solid #e2e8f0;
-        border-radius: 12px;
-        padding: 1rem;
-        margin-bottom: 2rem;
-        font-family: "Monaco", "Menlo", monospace;
-        font-size: 0.9rem;
-        word-break: break-all;
-        color: #4a5568;
-      }
-
-      .share-button {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border: none;
-        padding: 1rem 2rem;
-        border-radius: 50px;
-        font-size: 1.2rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        min-width: 200px;
-        justify-content: center;
-      }
-
-      .share-button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
-      }
-
-      .share-button:active {
-        transform: translateY(0);
-      }
-
-      .share-button:disabled {
-        background: #cbd5e0;
-        cursor: not-allowed;
-        transform: none;
-        box-shadow: none;
-      }
-
-      .fallback-message {
-        margin-top: 1.5rem;
-        padding: 1rem;
-        background: #fed7d7;
-        border-radius: 12px;
-        color: #c53030;
-        font-size: 0.9rem;
-        display: none;
-      }
-
-      .success-message {
-        margin-top: 1.5rem;
-        padding: 1rem;
-        background: #c6f6d5;
-        border-radius: 12px;
-        color: #22543d;
-        font-size: 0.9rem;
-        display: none;
-      }
-
-      /* RWD 響應式設計 */
-      @media (max-width: 768px) {
-        .container {
-          padding: 1.5rem;
-          margin: 10px;
-        }
-
-        h1 {
-          font-size: 1.5rem;
-        }
-
-        .description {
-          font-size: 1rem;
-        }
-
-        .share-button {
-          padding: 0.875rem 1.5rem;
-          font-size: 1.1rem;
-          width: 100%;
-        }
-
-        .icon {
-          font-size: 3rem;
-        }
-      }
-
-      @media (max-width: 480px) {
-        .container {
-          padding: 1rem;
-        }
-
-        h1 {
-          font-size: 1.25rem;
-        }
-
-        .description {
-          font-size: 0.9rem;
-        }
-
-        .url-display {
-          font-size: 0.8rem;
-          padding: 0.75rem;
-        }
-      }
-
-      /* 深色模式支援 */
-      @media (prefers-color-scheme: dark) {
-        .container {
-          background: #2d3748;
-          color: #e2e8f0;
-        }
-
-        h1 {
-          color: #f7fafc;
-        }
-
-        .description {
-          color: #a0aec0;
-        }
-
-        .url-display {
-          background: #4a5568;
-          border-color: #718096;
-          color: #e2e8f0;
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="container">
@@ -222,6 +29,23 @@
 
       <div class="fallback-message" id="fallbackMessage">
         ⚠️ 你的瀏覽器不支援原生分享功能，網址已複製到剪貼簿！
+      </div>
+    </div>
+
+    <!-- 底部小型 Modal -->
+    <div class="bottom-modal" id="shareModal">
+      <div class="bottom-modal-content">
+        <div class="modal-icon">🎉</div>
+        <h3>分享成功！</h3>
+        <p>感謝你分享這個頁面，希望能幫助到更多人！</p>
+        <div class="modal-actions">
+          <button class="modal-button primary" onclick="exploreMore()">
+            探索更多
+          </button>
+          <button class="modal-button secondary" onclick="closeModal()">
+            關閉
+          </button>
+        </div>
       </div>
     </div>
 
@@ -258,11 +82,10 @@
 
             await navigator.share(shareData);
 
-            // 顯示成功訊息
-            successMessage.style.display = "block";
+            // 延遲顯示底部 Modal，讓原生分享面板先消失
             setTimeout(() => {
-              successMessage.style.display = "none";
-            }, 3000);
+              showModal();
+            }, 500);
           } else {
             // 降級處理：複製到剪貼簿
             await copyToClipboard(shareData.url);
@@ -319,6 +142,32 @@
         }
       }
 
+      // Modal 相關函數
+      function showModal() {
+        const modal = document.getElementById("shareModal");
+        modal.classList.add("show");
+      }
+
+      function closeModal() {
+        const modal = document.getElementById("shareModal");
+        modal.classList.remove("show");
+      }
+
+      function exploreMore() {
+        // 這裡可以導向其他頁面或執行其他動作
+        alert("這裡可以導向其他功能頁面！");
+        closeModal();
+      }
+
+      // 點擊 Modal 外部關閉（點擊背景區域）
+      document
+        .getElementById("shareModal")
+        .addEventListener("click", function (event) {
+          if (event.target === this) {
+            closeModal();
+          }
+        });
+
       // 頁面載入時檢查分享支援狀態
       window.addEventListener("load", function () {
         const shareButton = document.getElementById("shareButton");
@@ -335,7 +184,40 @@
           event.preventDefault();
           shareCurrentPage();
         }
+
+        // ESC 鍵關閉 Modal
+        if (event.key === "Escape") {
+          closeModal();
+        }
       });
+
+      // 自動關閉 Modal（10秒後）
+      let autoCloseTimer;
+      function showModal() {
+        const modal = document.getElementById("shareModal");
+        modal.classList.add("show");
+
+        // 清除之前的計時器
+        if (autoCloseTimer) {
+          clearTimeout(autoCloseTimer);
+        }
+
+        // 設定自動關閉
+        autoCloseTimer = setTimeout(() => {
+          closeModal();
+        }, 10000);
+      }
+
+      function closeModal() {
+        const modal = document.getElementById("shareModal");
+        modal.classList.remove("show");
+
+        // 清除自動關閉計時器
+        if (autoCloseTimer) {
+          clearTimeout(autoCloseTimer);
+          autoCloseTimer = null;
+        }
+      }
     </script>
   </body>
 </html>
